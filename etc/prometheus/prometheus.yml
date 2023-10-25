@@ -25,7 +25,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["localhost:9197"]
 
   - job_name: 'app-a'
 
@@ -33,7 +33,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['app-a:8000']
+      - targets: ['app-a:9193']
 
   - job_name: 'app-b'
 
@@ -41,7 +41,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['app-b:8000']
+      - targets: ['app-b:9193']
 
   - job_name: 'app-c'
 
@@ -49,4 +49,4 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['app-c:8000']
+      - targets: ['app-c:9193']

@@ -59,7 +59,7 @@ Observe the FastAPI application with three pillars of observability on [Grafana]
 
    ```bash
    # install locust first with `pip install locust` if you don't have it
-   locust -f locustfile.py --headless --users 10 --spawn-rate 1 -H http://localhost:8000
+   locust -f locustfile.py --headless --users 10 --spawn-rate 1 -H http://localhost:9193
    ```
 
    Or you can send requests with [k6](https://k6.io/):
@@ -68,7 +68,7 @@ Observe the FastAPI application with three pillars of observability on [Grafana]
    k6 run --vus 1 --duration 300s k6-script.js
    ```
 
-4. Check predefined dashboard `FastAPI Observability` on Grafana [http://localhost:3000/](http://localhost:3000/) login with `admin:admin`
+4. Check predefined dashboard `FastAPI Observability` on Grafana [http://localhost:9199/](http://localhost:9199/) login with `admin:admin`
 
    Dashboard screenshot:
 
@@ -170,11 +170,11 @@ async def chain(response: Response):
     inject(headers)  # inject trace info to header
 
     async with httpx.AsyncClient() as client:
-        await client.get(f"http://localhost:8000/", headers=headers,)
+        await client.get(f"http://localhost:9193/", headers=headers,)
     async with httpx.AsyncClient() as client:
-        await client.get(f"http://{TARGET_ONE_HOST}:8000/io_task", headers=headers,)
+        await client.get(f"http://{TARGET_ONE_HOST}:9193/io_task", headers=headers,)
     async with httpx.AsyncClient() as client:
-        await client.get(f"http://{TARGET_TWO_HOST}:8000/cpu_task", headers=headers,)
+        await client.get(f"http://{TARGET_TWO_HOST}:9193/cpu_task", headers=headers,)
 
     return {"path": "/chain"}
 ```
@@ -283,15 +283,15 @@ scrape_configs:
   - job_name: 'app-a'
     scrape_interval: 5s
     static_configs:
-      - targets: ['app-a:8000']
+      - targets: ['app-a:9193']
   - job_name: 'app-b'
     scrape_interval: 5s
     static_configs:
-      - targets: ['app-b:8000']
+      - targets: ['app-b:9193']
   - job_name: 'app-c'
     scrape_interval: 5s
     static_configs:
-      - targets: ['app-c:8000']
+      - targets: ['app-c:9193']
 ```
 
 #### Grafana Data Source
@@ -309,7 +309,7 @@ name: Prometheus
 type: prometheus
 typeName: Prometheus
 access: proxy
-url: http://prometheus:9090
+url: http://prometheus:9197
 password: ''
 user: ''
 database: ''
@@ -382,7 +382,7 @@ Collect logs with Loki Docker Driver from all services.
 x-logging: &default-logging # anchor(&): 'default-logging' for defines a chunk of configuration
   driver: loki
   options:
-    loki-url: 'http://localhost:3100/api/prom/push'
+    loki-url: 'http://localhost:9196/api/prom/push'
     loki-pipeline-stages: |
       - multiline:
           firstline: '^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2}'
@@ -414,7 +414,7 @@ name: Loki
 type: loki
 typeName: Loki
 access: proxy
-url: http://loki:3100
+url: http://loki:9196
 password: ''
 user: ''
 database: ''

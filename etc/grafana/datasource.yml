@@ -16,7 +16,7 @@ datasources:
     type: prometheus
     typeName: Prometheus
     access: proxy
-    url: http://prometheus:9090
+    url: http://prometheus:9197
     password: ''
     user: ''
     database: ''
@@ -63,7 +63,7 @@ datasources:
     type: loki
     typeName: Loki
     access: proxy
-    url: http://loki:3100
+    url: http://loki:9196
     password: ''
     user: ''
     database: ''

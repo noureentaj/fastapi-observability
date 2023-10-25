@@ -11,7 +11,7 @@ from opentelemetry.propagate import inject
 from utils import PrometheusMiddleware, metrics
 
 APP_NAME = os.environ.get("APP_NAME", "app")
-EXPOSE_PORT = os.environ.get("EXPOSE_PORT", 8000)
+EXPOSE_PORT = os.environ.get("EXPOSE_PORT", 9193)
 
 TARGET_ONE_HOST = os.environ.get("TARGET_ONE_HOST", "app-b")
 TARGET_TWO_HOST = os.environ.get("TARGET_TWO_HOST", "app-c")
@@ -88,11 +88,11 @@ async def chain(response: Response):
     logging.critical(headers)
 
     async with httpx.AsyncClient() as client:
-        await client.get("http://localhost:8000/", headers=headers,)
+        await client.get("http://localhost:9193/", headers=headers,)
     async with httpx.AsyncClient() as client:
-        await client.get(f"http://{TARGET_ONE_HOST}:8000/io_task", headers=headers,)
+        await client.get(f"http://{TARGET_ONE_HOST}:9193/io_task", headers=headers,)
     async with httpx.AsyncClient() as client:
-        await client.get(f"http://{TARGET_TWO_HOST}:8000/cpu_task", headers=headers,)
+        await client.get(f"http://{TARGET_TWO_HOST}:9193/cpu_task", headers=headers,)
     logging.info("Chain Finished")
     return {"path": "/chain"}
 
